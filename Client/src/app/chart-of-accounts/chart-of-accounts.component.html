@@ -1,0 +1,249 @@
+
+<div id="createAccountModal" class="modal">
+  <div class="modal-content">
+    <form #addAccountForm="ngForm">
+
+      <!-- Modal for account creation -->
+      <div class="form-group">
+        <label for="accountName">Account Name</label><br>
+        <input type="text" class="form-control" id="accountName" style="text-transform: capitalize"
+               (ngModelChange)="compareAccountNameCreate($event)" placeholder="Account Name" required [(ngModel)]="CoA.accountName"
+          name="accountName" #accountNam="ngModel">
+      </div>
+      <div [hidden]="accountNam.valid || accountNam.pristine" class="alert alert-danger" style="width: 250px;">
+        Account Name is required
+      </div>
+
+      <div class="form-group">
+        <label for="accountNumber">Account Number</label><br>
+        <input type="text" class="form-control" id="accountNumber"
+               (ngModelChange)="compareAccountNumberCreate($event)" [textMask]="{mask: currencyMask}"
+               placeholder="Account Number" required [(ngModel)]="CoA.accountNumber"
+          name="accountNumber" #accountNumbe="ngModel">
+      </div>
+      <div [hidden]="accountNumbe.valid || accountNumbe.pristine" class="alert alert-danger" style="width: 250px;">
+        Account Number is required
+      </div>
+      <div *ngIf="isNegativeNumber(CoA.accountNumber)" class="alert alert-danger" style="width: 250px;">
+        Account Number must be greater than 0
+      </div>
+
+      <div class="form-group">
+        <label for="accountType">Account Type</label><br>
+        <select required [(ngModel)]="CoA.accountType" name="accountType" #accountType="ngModel" >
+          <option>Assets</option>
+          <option>Revenue</option>
+          <option>Expenses</option>
+          <option>Liability</option>
+          <option>Equity</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="accountSubType">Account Subtype</label><br>
+        <select required [(ngModel)]="CoA.accountSubType" name="accountSubType" #accountSubType="ngModel">
+          <option>Current Assets</option>
+          <option>Property, Plant, and Equipment</option>
+          <option>Current Liabilities</option>
+          <option>Long-term Liabilities</option>
+          <option>Stockholders' Equity</option>
+          <option>Operating Revenues</option>
+          <option>Cost of Goods Sold</option>
+          <option>Other</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+          <label for="originalBalance">Original Balance</label><br>
+        <input type="text" class="form-control" id="originalBalance" [textMask]="{mask: currencyMask}"
+               placeholder="Account Balance" required [(ngModel)]="CoA.originalBalance"
+          name="originalBalance" #balance="ngModel">
+      </div>
+      <div [hidden]="balance.valid || balance.pristine" class="alert alert-danger" style="width: 250px;">
+        Account Balance is required
+      </div> 
+
+      <div class="form-group">
+        <label for="active">Active</label>
+        <select required [(ngModel)]="CoA.active" name="active" #activeInactive="ngModel">
+          <option>Active</option>
+          <option>Inactive</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="comment">Comments</label><br>
+        <input type="text" class="form-control" id="comment2" placeholder="Account Description" required [(ngModel)]="CoA.comment"
+          name="comment" #description="ngModel" required>
+      </div>
+      <div [hidden]="description.valid || description.pristine" class="alert alert-danger" style="width: 250px;">
+        Account Description is required
+      </div>
+
+      <div *ngIf="accountNameCreateExist == 2" class="alert alert-danger"  style="width: 250px;">
+        Account Name already exists
+      </div>
+      <div *ngIf="accountNumberCreateExist == 2" class="alert alert-danger"  style="width: 250px;">
+        Account Number already exists
+      </div>
+
+
+      <button (click)="submit()" id="submitBtn" [disabled]="!addAccountForm.form.valid" class="btn btn-primary ">Submit</button>
+      <input type="reset" class="btn btn-info" style="position: relative; left: 5px">
+      <button (click)="close()" id="closeModalBtn4" class="btn btn-danger" style="position: relative; left: 10px">Cancel</button>
+    </form>
+  </div>
+</div>
+
+<!-- Modal for account update -->
+<div id="editAccountModal" class="modal">
+  <div class="modal-content">
+    <form #editAccountForm="ngForm">
+      <div class="form-group">
+        <label for="accountName">Account Name</label><br>
+        <input type="text" class="form-control" id="accountName" style="text-transform: capitalize"
+               (ngModelChange)="compareAccountNameUpdate($event)" value="{{ accountData.accountName}}" required [(ngModel)]="editCoA.accountName"
+          name="accountName" #accountName="ngModel">
+      </div>
+      <div class="form-group">
+        <label for="accountNumber">Account Number</label><br>
+        <input type="text" [textMask]="{mask: currencyMask}" class="form-control" id="accountNumber"
+               (ngModelChange)="compareAccountNumberUpdate($event)" value="{{ accountData.accountNumber }}" required
+          [(ngModel)]="editCoA.accountNumber" name="accountNumber" #accountNumber="ngModel">
+      </div>
+      <div *ngIf="isNegativeNumber(editCoA.accountNumber)" class="alert alert-danger" style="width: 250px;">
+        Account Number must be greater than 0
+      </div>
+
+      <div class="form-group">
+        <label for="accountType">Account Type: {{ accountData.accountType}}</label><br>
+        <select required [(ngModel)]="editCoA.accountType" name="accountType" #accountType="ngModel">
+          <option>Assets</option>
+          <option>Revenue</option>
+          <option>Expenses</option>
+          <option>Liability</option>
+          <option>Equity</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="accountSubType">Account Subtype: {{ accountData.accountSubType}}</label><br>
+        <select required [(ngModel)]="editCoA.accountSubType" value="{{accountData.accountSubType}}" name="accountSubType" #accountSubType="ngModel">
+          <option>Current Assets</option>
+          <option>Property, Plant, and Equipment</option>
+          <option>Current Liabilities</option>
+          <option>Long-term Liabilities</option>
+          <option>Stocholders' Equity</option>
+          <option>Operating Revenues</option>
+          <option>Cost of Goods Sold</option>
+          <option>Other</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="originalBalance">Original Balance</label><br>
+        <input type="text" [textMask]="{mask: currencyMask}" class="form-control" id="originalBalance"  value="{{ accountData.originalBalance }}" required
+          [(ngModel)]="editCoA.originalBalance" name="originalBalance" #originalBalance="ngModel">
+      </div>
+
+      <div class="form-group">
+        <label for="active">Active: {{ accountData.active}}</label><br>
+        <select required [(ngModel)]="editCoA.active" name="active" #active="ngModel">
+          <option>Active</option>
+          <option>Inactive</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="comment">Comments</label><br>
+        <input type="text" class="form-control" id="comment" value="{{ accountData.comment }}" required [(ngModel)]="editCoA.comment"
+          name="comment" #comment="ngModel">
+      </div>
+
+      <div *ngIf="accountNameExist== 2" class="alert alert-danger"  style="width: 250px;">
+        Account Name exists
+      </div>
+      <div *ngIf="accountNumberExist == 3" class="alert alert-danger"  style="width: 250px;">
+        Account Number input must be an integer
+      </div>
+      <div *ngIf="accountNumberExist == 2" class="alert alert-danger"  style="width: 250px;">
+        Account Number exists
+      </div>
+      <div *ngIf="numberHasDecimal==2" class="alert alert-danger" style="width: 250px;">
+        Balance must be in decimal format
+      </div>
+
+      <button (click)="submitEdit()" id="submitEditBtn" class="btn btn-primary ">Submit</button>
+      <button (click)="resetUpdate()" id="closeModalBtn3" class="btn btn-info" style="position: relative; left: 5px">Reset</button>
+      <button (click)="close2()" id="closeModalBtn" class="btn btn-danger" style="position: relative; left: 10px">Cancel</button>
+    </form>
+  </div>
+</div>
+
+<div id="popupModalConfirm" class="modal2" >
+  <div class="modal-content3">
+    <div class="alert alert-success">
+      {{confirmationType}}
+    </div>
+  </div>
+</div>
+
+<!--search bar -->
+<form class="form-inline" style="left: 8px">
+  <div style="position:  relative;left: 75%;  padding-top: 20px">
+    <div class="form-group">
+      <input type="text" class="form-control" id="searchBar"  style="width: 300px; left: 6px" placeholder="Search"
+             (ngModelChange)="viewAccountsSort(column,'ASC', columnSearch, $event)" required [(ngModel)]="criteria"
+             name="search" >
+    </div>
+  </div>
+</form>
+
+<button class="btn btn-info btn-lg" (click)="createAccount()" id='createAccountBtn' *ngIf="access == 1">Create Account</button>
+<div style="padding-top: 5px">
+<div class="form-group">
+  <table id="accountTable">
+    <tr>
+      <th (click)="viewAccountsSort('accountNumber','ASC',columnSearch,criteria)">Account Number </th>
+      <th (click)="viewAccountsSort('accountName','ASC',columnSearch,criteria)">Account Name</th>
+      <th (click)="viewAccountsSort('accountType','ASC',columnSearch,criteria)">Account Type</th>
+      <th (click)="viewAccountsSort('accountSubType','ASC',columnSearch,criteria)">Account Subtype</th>
+      <th (click)="viewAccountsSort('normalSide','ASC',columnSearch,criteria)">Normal Side</th>
+      <th (click)="viewAccountsSort('originalBalance','ASC',columnSearch,criteria)">Original Balance</th>
+      <th (click)="viewAccountsSort('currentBalance','ASC',columnSearch,criteria)">Current Balance</th>
+      <th (click)="viewAccountsSort('comment','ASC',columnSearch,criteria)">Account Description</th>
+      <th (click)="viewAccountsSort('active','ASC',columnSearch,criteria)">Active</th>
+      <th (click)="viewAccountsSort('createdBy','ASC',columnSearch,criteria)">Created By</th>
+    </tr>
+    <tr *ngFor="let account of accounts | paginate: { itemsPerPage: perPage, currentPage: currPage }  ">
+      <td>{{ account.accountNumber }}</td>
+      <td>{{ account.accountName }}</td>
+      <td>{{ account.accountType }}</td>
+      <td>{{ account.accountSubType }}</td>
+      <td>{{ account.normalSide }}</td>
+      <td style="text-align: right;">{{ account.originalBalance | number : '1.2-2'}}</td>
+      <td style="text-align: right;" *ngIf="account.currentBalance >= 0">{{account.currentBalance | number : '1.2-2'}}</td>
+      <td style="text-align: right;" *ngIf="account.currentBalance < 0">{{'('+(convertNumNegative(account.currentBalance) | number : '1.2-2')+')'}}</td>
+      <td>{{ account.comment }}</td>
+      <td>{{ account.active }}</td>
+      <td>{{ account.createdBy }}</td>
+      <button class="btn btn-primary" (click)="getAccount(account.caId)" *ngIf="access == 1">Edit</button>
+    </tr>
+  </table>
+  <div style="display: inline-block">
+    <div style="float: left; width: 100px; position: relative; left: 5px; top: 3px">
+      <p >{{"Per Page:"}}</p>
+    </div>
+    <select id="perPage" class="form-control" style="position:relative; float: left; width: 75px; right: 20px"
+            [(ngModel)]="perPage"
+            name="account">
+      <option>5</option>
+      <option selected>10</option>
+      <option>15</option>
+      <option>20</option>
+    </select>
+    <pagination-controls style="float: left" (pageChange)="currPage = $event"></pagination-controls>
+  </div>
+
+</div>
+</div>

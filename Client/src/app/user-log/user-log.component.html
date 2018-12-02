@@ -1,0 +1,88 @@
+
+<div style="position:  relative;left: 58%;  padding-top: 20px">
+  <div class="form-group">
+    <input type="text" class="form-control" id="searchBar"  style="width: 300px; left: 6px" placeholder="Search" (ngModelChange)="viewLogSort(column,'ASC', columnSearch, $event)" required [(ngModel)]="criteria"
+           name="search" >
+  </div>
+</div>
+<div style="margin: auto; width: 50%;">
+  <table id="logTable" >
+    <tr>
+      <th colspan="4" style="text-align: center">User Log</th>
+    </tr>
+    <tr>
+      <th>Username</th>
+      <th>Action Type</th>
+      <th>Description</th>
+      <th>Time</th>
+    <tr *ngFor="let log of logs | paginate: { itemsPerPage: perPage, currentPage: currPage }">
+
+      <ng-container *ngIf="log.actionType==='Account created' || log.actionType==='Journal created'; else accountUpdated">
+        <td style="vertical-align: top">{{ log.userName }}</td>
+        <td style="vertical-align: top; width: 185px">{{ log.actionType }}</td>
+        <td style="width: 800px">{{'Created: ' + (log.newData) }}</td>
+        <td style="vertical-align: top">{{ log.createdAt | date: 'MM/dd/yyyy HH:mm:ss'}}</td>
+      </ng-container>
+
+      <ng-template #accountUpdated>
+        <ng-container *ngIf="log.actionType=='Account updated' || log.actionType== 'User updated'; else anotherElse">
+          <td style="vertical-align: top">{{ log.userName }}</td>
+          <td style="vertical-align: top">{{ log.actionType }}</td>
+          <td>
+            <table>
+              <tr>
+                <td class="report" style="width: 800px">{{'Before: ' + (log.prevData) }}</td>
+              </tr>
+            </table>
+            <table>
+                <tr>
+                  <td class="report" style="width: 800px">{{'After: ' + (log.newData) }}</td>
+                </tr>
+              </table>
+          </td>
+          <td style="vertical-align: top">{{ log.createdAt | date: 'MM/dd/yyyy HH:mm:ss'}}</td>
+        </ng-container>
+      </ng-template>
+
+        <ng-template #anotherElse>
+        <ng-container *ngIf="log.actionType=='User created'; else anotherElse2">
+          <td style="vertical-align: top">{{ log.userName }}</td>
+          <td style="vertical-align: top">{{ log.actionType }}</td>
+          <td style="width: 800px">{{'Created: ' + (log.newData) }}</td>
+          <td style="vertical-align: top">{{ log.createdAt | date: 'MM/dd/yyyy HH:mm:ss'}}</td>
+        </ng-container>
+        </ng-template>
+
+    <ng-template #anotherElse2>
+      <ng-container *ngIf="log.actionType=='Journal approved' || log.actionType=='Journal declined'; else elseIf">
+        <td style="vertical-align: top">{{ log.userName }}</td>
+        <td style="vertical-align: top">{{ log.actionType }}</td>
+        <td style="width: 800px; vertical-align: top">{{'Journal Reference: ' + (log.newData) }}</td>
+        <td style="vertical-align: top">{{ log.createdAt | date: 'MM/dd/yyyy HH:mm:ss'}}</td>
+      </ng-container>
+    </ng-template>
+
+      <ng-template #elseIf>
+        <td style="vertical-align: top">{{ log.userName }}</td>
+        <td style="vertical-align: top">{{ log.actionType }}</td>
+        <td></td>
+        <td style="vertical-align: top">{{ log.createdAt | date: 'MM/dd/yyyy HH:mm:ss'}}</td>
+      </ng-template>
+    </tr>
+  </table>
+  <div style="display: inline-block">
+    <div style="float: left; width: 100px; position: relative; left: 5px; top: 3px">
+      <p style="color: black">{{"Per Page:"}}</p>
+    </div>
+    <select id="perPage" class="form-control" style="position:relative; float: left; width: 75px; right: 20px"
+            [(ngModel)]="perPage"
+            name="account">
+      <option>5</option>
+      <option selected>10</option>
+      <option>15</option>
+      <option>20</option>
+    </select>
+
+    <pagination-controls style="float: left" (pageChange)="currPage = $event"></pagination-controls>
+  </div>
+</div>

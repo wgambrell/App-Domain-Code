@@ -1,0 +1,14 @@
+h3, label, p {
+  color: black;
+}
+
+#center {
+  position: relative;
+  width: 14%;
+  margin: 0 auto;
+}
+
+#height {
+  margin-top:30px;
+  width: 250px
+}

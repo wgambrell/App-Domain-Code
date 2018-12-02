@@ -1,0 +1,57 @@
+<form #addUserForm="ngForm">
+
+  <div id="center2">
+    <div id="height">
+      <h3>Login</h3>
+      <div class="horizontalgap" style="width:250px">
+        <div class="form-group">
+          <label class='required' for="username">Username</label>
+          <input type="text" class="form-control" id="username" (ngModelChange)="resetError()" placeholder="Username" required [(ngModel)]="username"
+            name="username" #usernam="ngModel">
+
+        </div>
+      </div>
+
+      <div [hidden]="usernam.valid || usernam.pristine" class="alert alert-danger" style="width: 250px;">
+        Username is required
+      </div>
+
+
+      <div class="horizontalgap" style="width:250px">
+        <div class="form-group">
+          <label class='required' for="password">Password</label>
+          <input type="password" class="form-control" id="password" (ngModelChange)="resetError()" placeholder="Password" required [(ngModel)]="password"
+            name="password" #passw="ngModel">
+
+        </div>
+      </div>
+
+      <div [hidden]="passw.valid || passw.pristine" style="width: 250px; height: 30px">
+        <label class="alert alert-danger" style="width:250px; padding-top: 6px;"> Password is required </label>
+      </div>
+
+      <p>
+
+      </p>
+      <div *ngIf="isActive == 2" class="alert alert-danger"  style="width: 250px;">
+        Account has been deactivated
+      </div>
+      <div class="form-group">
+        <button class="btn btn-primary" (click)="onSubmit()" [disabled]="!addUserForm.form.valid">Login</button>
+        <button class="btn btn-link" (click)="toggler()" id="button1">Register</button>
+
+  </div>
+      <hr/>
+      <div class="form-group">
+        <button class="btn btn-link" (click)="toggleReset()" id="button2" >Reset Password</button>
+      </div>
+      </div>
+      <div [hidden]="notLogged" class="alert alert-danger" style="width: 250px;">
+        Incorrect username or password
+      </div>
+    </div>
+
+
+
+
+</form>

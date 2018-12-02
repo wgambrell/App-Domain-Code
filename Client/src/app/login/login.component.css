@@ -1,0 +1,47 @@
+h2{
+    color: black;
+}
+
+h3{
+    color: black;
+}
+
+label.required { color: black; }
+
+
+
+#center {
+  position: relative;
+  width: 10%;
+  margin: 0 auto;
+}
+
+#center2 {
+  position: relative;
+  width: 14%;
+  margin: 0 auto;
+
+}
+
+#height {
+  margin-top:30px;
+  width: 400px
+}
+
+#button1{
+  color: black;
+  position:absolute;
+  right:6%;
+}
+
+#button2{
+  color: black;
+  margin: 0 auto;
+  position: relative;
+  right: -12%;
+}
+
+hr{
+  width: 250px;
+  border-color: black;
+}

@@ -1,0 +1,58 @@
+<div class="form-group" style="margin: auto; width: 50%;">
+  <table id="ledgerTable" style=" width: 70%;table-layout:fixed">
+    <tr>
+      <th colspan="2" class="text-center">
+        <div>
+          <label style="line-height: 0px">Sarif Financial</label>
+        </div>
+        <div>
+        <label style="line-height: 0px">Income Statement</label>
+        </div>
+        <div>
+        <label>{{'For the Year Ended ' + (currentDate | date: 'MM/dd/yyyy')}}</label>
+        </div>
+      </th>
+    </tr>
+    <tr>
+      <th colspan="2" >Revenues</th>
+    </tr>
+    <tr *ngFor="let accounts of revenueAccounts; let b = index">
+      <td style="width: 70%;   text-indent: 25px ; position: relative"><button class="btn btn-link" (click)="viewLedger(accounts.accountName)">{{accounts.accountName}}</button></td>
+      <td style="text-align: right;" *ngIf="b == 0 && b != revenueAccounts.length -1">{{'$'+(accounts.currentBalance | number : '1.2-2')}}</td>
+      <td style="text-align: right;" *ngIf="b != 0 && b != revenueAccounts.length -1">{{(accounts.currentBalance | number : '1.2-2')}}</td>
+      <td style="text-align: right;" *ngIf="b == 0 && b == revenueAccounts.length -1"><u>{{'$'+(accounts.currentBalance | number : '1.2-2')}}</u></td>
+      <td style="text-align: right;" *ngIf="b != 0 && b == revenueAccounts.length -1"><u>{{(accounts.currentBalance | number : '1.2-2')}}</u></td>
+    </tr>
+    <tr>
+      <th >Total Revenues</th>
+      <td style="text-align: right;"><u>{{totalRevenue | number : '1.2-2'}}</u></td>
+    </tr>
+    <tr >
+      <th colspan="2" >&nbsp;</th>
+    </tr>
+    <tr>
+      <th colspan="2" >Expenses</th>
+    </tr>
+    <tr *ngFor="let accounts of expenseAccounts; let b = index">
+      <td style=";   text-indent: 25px"><button class="btn btn-link" (click)="viewLedger(accounts.accountName)">{{accounts.accountName}}</button></td>
+
+      <td style="text-align: right;" *ngIf=" b != expenseAccounts.length -1">{{accounts.currentBalance | number : '1.2-2'}}</td>
+      <td style="text-align: right;" *ngIf=" b == expenseAccounts.length -1"><u>{{(accounts.currentBalance | number : '1.2-2')}}</u></td>
+    </tr>
+    <tr>
+      <th >Total Expenses</th>
+      <td style="text-align: right;"><u>{{totalExpense | number : '1.2-2'}}</u></td>
+    </tr>
+    <tr >
+      <th colspan="2" >&nbsp;</th>
+    </tr>
+    <tr>
+      <th >{{'Net Income ' + loss}}</th>
+      <td style="text-align: right;"><p class="newclass">{{'$'+(totalRevenue - totalExpense | number : '1.2-2')}}</p></td>
+
+
+    </tr>
+
+  </table>
+  <button class="btn btn-primary" (click)="convertPDF()">Download Table</button>
+</div>

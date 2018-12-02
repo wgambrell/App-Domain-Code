@@ -1,0 +1,90 @@
+<div style=" padding-top: 20px">
+<h3 style="position: relative; left: 20px">Dashboard</h3>
+  <hr>
+<div style="padding-top: 20px">
+  <div style="width: 360px; float: left">
+    <p style="position: relative; left: 30px">Current Ratio</p>
+    <div style="position: relative; margin: 0 auto;width: 260px; height: 360px">
+      <canvas baseChart width="2" height="2"
+              [data]="pieChartData3"
+              [labels]="lineChartLabels3"
+              [options]="barChartOptions"
+              [chartType]="pieChartType"
+              [colors]="colors3" ></canvas>
+
+    </div>
+    <p style="position: relative; left: 30px">Return on Total Assets</p>
+    <div style="position: relative; margin: 0 auto;width: 260px; height: 360px">
+      <canvas baseChart width="2" height="2"
+              [data]="pieChartData"
+              [labels]="lineChartLabels"
+              [options]="barChartOptions"
+              [chartType]="pieChartType"
+              [colors]="colors2" ></canvas>
+
+    </div>
+
+
+  </div>
+  <div style=" width: 360px; float: left">
+    <p style="position: relative;  left: 30px">Quick Ratio</p>
+    <div style="position: relative; margin: 0 auto;width: 280px; height: 360px">
+      <canvas baseChart width="2" height="2"
+              [data]="pieChartData4"
+              [labels]="lineChartLabels4"
+              [options]="barChartOptions"
+              [chartType]="pieChartType"
+              [colors]="colors4"></canvas>
+    </div >
+
+    <p style="position: relative;  left: 30px">Return on Equity</p>
+    <div style="position: relative; margin: 0 auto;width: 260px; height: 360px">
+      <canvas baseChart width="2" height="2"
+              [data]="pieChartEquityData"
+              [labels]="lineChartEquityLabels"
+              [options]="barChartOptions"
+              [chartType]="pieChartType"
+              [colors]="colors"></canvas>
+    </div >
+
+  </div>
+
+  <div style="float: left">
+    <label>Ratio Analysis</label>
+    <hr>
+    <div class="col-md-12">
+    <table id="display">
+      <tr >
+        <td>Gross Profit Margin</td>
+        <td>{{grossProfitMargin}}</td>
+      </tr>
+      <tr >
+        <td>Net Profit Margin</td>
+        <td>{{netProfitMargin}}</td>
+      </tr>
+      <tr >
+        <td>Current Ratio</td>
+        <td>{{currentRatio | number : '1.2-2'}}</td>
+      </tr>
+      <tr >
+        <td>Quick Ratio</td>
+        <td>{{quickRatio | number : '1.2-2'}}</td>
+      </tr>
+      <tr >
+        <td>Return on Assets</td>
+        <td>{{(returnOnTotalAssets | number : '1.2-2') + '%'}}</td>
+      </tr>
+      <tr>
+        <td>Return on Equity</td>
+        <td>{{(returnOnEquity | number : '1.2-2') + '%'}}</td>
+      </tr>
+      <tr>
+        <td>Working Capital</td>
+        <td>{{'$'+(workingCapital | number : '1.2-2')}}</td>
+      </tr>
+    </table>
+      <hr>
+  </div>
+</div>
+</div>
+</div>

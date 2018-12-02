@@ -1,0 +1,14 @@
+#image {
+  background-image:url("../../assets/logo.png");
+  background-position: center;
+  background-size: 200px 350px;
+  width: 200px;
+  height: 350px;
+
+}
+
+#center {
+  position: relative;
+  width: 10%;
+  margin: 0 auto;
+}

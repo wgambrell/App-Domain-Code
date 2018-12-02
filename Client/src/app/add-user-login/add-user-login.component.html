@@ -1,0 +1,61 @@
+<div id="center" >
+  <div id="height">
+    <h3>Add User</h3>
+    <div [hidden]="submitted">
+      <form #addUserForm="ngForm">
+
+        <div class="form-group">
+          <label for="firstName">First Name</label>
+          <input type="text" class="form-control" id="firstName" placeholder="Give User's FirstName"
+                 required
+                 [(ngModel)]="user.firstName" name="firstName" #firstName="ngModel">
+          <div [hidden]="firstName.valid || firstName.pristine"
+               class="alert alert-danger">
+            First Name is required
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="lastName">Last Name</label>
+          <input type="text" class="form-control" id="lastName" placeholder="Give User's LastName"
+                 required
+                 [(ngModel)]="user.lastName" name="lastName" #lastName="ngModel">
+          <div [hidden]="lastName.valid || lastName.pristine"
+               class="alert alert-danger">
+            Last Name is required
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="string" (ngModelChange)="compareEmail($event)" class="form-control" id="email"
+                 placeholder="Give User's Email"
+                 required
+                 [(ngModel)]="user.email" name="email" #email="ngModel">
+          <div [hidden]="email.valid || email.pristine"
+               class="alert alert-danger">
+            Email is required
+          </div>
+        </div>
+
+        <div *ngIf="emailExist == 2" class="alert alert-danger"  style="width: 250px;">
+          Email already exists
+        </div>
+
+        <div class="btn-group btn-group-sm">
+          <button type="button" class="btn btn-dark" (click)="goBack()">Back</button>
+          <button type="button" class="btn btn-dark" (click)="addUser()" [disabled]="!addUserForm.form.valid">Add</button>
+        </div>
+      </form>
+    </div>
+
+    <div [hidden]="!submitted">
+      <p>Submitted Successfully! -> <span class="badge badge-light">{{user.firstName}}  {{user.lastName}}</span></p>
+      <div class="btn-group btn-group-sm">
+        <button type="button" class="btn btn-dark" (click)="goBack()">Back</button>
+        <button type="button" class="btn btn-dark" (click)="goBack(); addUserForm.reset()">Continue</button>
+      </div>
+    </div>
+
+  </div>
+</div>

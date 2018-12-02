@@ -1,0 +1,47 @@
+
+
+<div class="form-group">
+  <table id="ledgerTable">
+    <tr>
+      <th colspan="9" class="col-xs-1 text-center">General Ledger</th>
+    <tr>
+    <tr>
+      <th >Account Number</th>
+      <th >Account Name</th>
+      <th >Account Type</th>
+      <th >Account Subtype</th>
+      <th >Normal Side</th>
+      <th >Original Balance</th>
+      <th >Current Balance</th>
+      <th >Account Description</th>
+      <th >Active</th>
+    </tr>
+    <tr *ngFor="let account of accounts | paginate: { itemsPerPage: perPage, currentPage: currPage }">
+      <td>{{ account.accountNumber }}</td>
+      <td>
+        <button class="btn btn-link" style="color: dodgerblue" (click)="viewLedger(account.accountName)" id="button1" >{{ account.accountName }}</button></td>
+      <td>{{ account.accountType }}</td>
+      <td>{{ account.accountSubType }}</td>
+      <td>{{ account.normalSide }}</td>
+      <td style="text-align: right;">{{ account.originalBalance | number : '1.2-2'}}</td>
+      <td style="text-align: right;" *ngIf="account.currentBalance >= 0">{{account.currentBalance | number : '1.2-2'}}</td>
+      <td style="text-align: right;" *ngIf="account.currentBalance < 0">{{'('+(convertNumNegative(account.currentBalance) | number : '1.2-2')+')'}}</td>
+      <td>{{ account.comment }}</td>
+      <td>{{ account.active }}</td>
+    </tr>
+  </table>
+  <div style="display: inline-block">
+    <div style="float: left; width: 100px; position: relative; left: 5px; top: 3px">
+      <p >{{"Per Page:"}}</p>
+    </div>
+    <select id="perPage" class="form-control" style="position:relative; float: left; width: 75px; right: 20px"
+            [(ngModel)]="perPage"
+            name="account">
+      <option>5</option>
+      <option>10</option>
+      <option>15</option>
+      <option>20</option>
+    </select>
+    <pagination-controls style="float: left" (pageChange)="currPage = $event"></pagination-controls>
+  </div>
+</div>

@@ -1,0 +1,121 @@
+<div class="form-group" style="margin: auto; width: 50%;">
+  <table id="ledgerTable" style=" width: 70%">
+    <tr>
+      <th colspan="4" class="text-center">
+        <div>
+          <label style="line-height: 0px">Sarif Financial</label>
+        </div>
+        <div>
+        <label style="line-height: 0px">Balance Sheet</label>
+        </div>
+        <div>
+        <label>{{'At ' + (currentDate | date: 'MM/dd/yyyy')}}</label>
+        </div>
+      </th>
+    <tr>
+    <tr>
+    <th colspan="3">Assets</th>
+  </tr>
+    <tr>
+    <td colspan="3">Current Assets</td>
+  </tr>
+    <tr *ngFor="let account of currentAssets; let b = index">
+      <td style=" text-indent: 25px "><button class="btn btn-link" (click)="viewLedger(account.accountName)">{{account.accountName}}</button></td>
+      <td style="text-align: right;" *ngIf="b == 0 && b != currentAssets.length - 1">{{'$' +(account.currentBalance | number : '1.2-2')}}</td>
+      <td style="text-align: right;" *ngIf="b != 0 && b != currentAssets.length - 1">{{account.currentBalance | number : '1.2-2'}}</td>
+      <td style="text-align: right;" *ngIf="b == 0 && b == currentAssets.length - 1"><u>{{'$' +(account.currentBalance | number : '1.2-2')}}</u></td>
+      <td style="text-align: right;" *ngIf="b != 0 && b == currentAssets.length - 1"><u>{{account.currentBalance | number : '1.2-2'}}</u></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td >Current Total Assets</td>
+      <td>&nbsp;</td>
+      <td style="text-align: right;">{{'$'+(totalCurrentAssets | number : '1.2-2')}}</td>
+    </tr>
+    <tr>
+      <td colspan="3">Property Plant & Equipment</td>
+    </tr>
+    <tr *ngFor="let account of property_plant_equip; let b = index">
+      <td style=" text-indent: 25px "><button class="btn btn-link" (click)="viewLedger(account.accountName)">{{account.accountName}}</button></td>
+      <td style="text-align: right;" *ngIf="account.currentBalance >= 0 && b != property_plant_equip.length - 1">{{account.currentBalance | number : '1.2-2'}}</td>
+      <td style="text-align: right;" *ngIf="account.currentBalance < 0 && b != property_plant_equip.length - 1">{{'('+(convertNumNegative(account.currentBalance) | number : '1.2-2')+')'}}</td>
+      <td style="text-align: right;" *ngIf="account.currentBalance >= 0 && b == property_plant_equip.length - 1"><u>{{account.currentBalance | number : '1.2-2'}}</u></td>
+      <td style="text-align: right;" *ngIf="account.currentBalance < 0 && b == property_plant_equip.length - 1"><u>{{'('+(convertNumNegative(account.currentBalance) | number : '1.2-2')+')'}}</u></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td >Property Plant & Equipment, net</td>
+      <td>&nbsp;</td>
+      <td style="text-align: right;"><u>{{totalPropertynum | number : '1.2-2'}}</u></td>
+    </tr>
+    <tr>
+      <th>Total Assets</th>
+      <td>&nbsp;</td>
+      <td style="text-align: right;"><p class="newclass">{{totalPropertynum + totalCurrentAssets| number : '1.2-2'}}</p></td>
+    </tr>
+    <tr>
+      <td colspan="3">&nbsp;</td>
+    </tr>
+    <tr>
+      <th colspan="3">Liabilities and Stockholders' Equity</th>
+    </tr>
+    <tr>
+      <th colspan="3">Liabilities</th>
+    </tr>
+    <tr>
+      <td colspan="3">Current Liabilities</td>
+    </tr>
+    <tr *ngFor="let account of currentLiabilities; let b = index">
+      <td style=" text-indent: 25px "><button class="btn btn-link" (click)="viewLedger(account.accountName)">{{account.accountName}}</button></td>
+      <td *ngIf="currentLiabilities.length == 1">&nbsp;</td>
+      <td style="text-align: right;" *ngIf="b != currentLiabilities.length -1 ">{{account.currentBalance | number : '1.2-2'}}</td>
+      <td style="text-align: right;" *ngIf="b == currentLiabilities.length -1 " ><u>{{'$'+(account.currentBalance | number : '1.2-2')}}</u></td>
+      <td *ngIf="currentLiabilities.length != 1">&nbsp;</td>
+
+    </tr>
+    <tr>
+      <th >Total Current Liabilities</th>
+      <td>&nbsp;</td>
+      <td style="text-align: right;"><u>{{totalCurrentLiabilities | number : '1.2-2'}}</u></td>
+    </tr>
+
+    <tr *ngFor="let account of otherLiabilities; let b = index">
+      <td><button class="btn btn-link" (click)="viewLedger(account.accountName)">{{account.accountName}}</button></td>
+      <td *ngIf="otherLiabilities.length == 1">&nbsp;</td>
+      <td style="text-align: right;" *ngIf="b != otherLiabilities.length-1">{{account.currentBalance | number : '1.2-2'}}</td>
+      <td style="text-align: right;" *ngIf="b == otherLiabilities.length-1"><u>{{(account.currentBalance | number : '1.2-2')}}</u></td>
+      <td *ngIf="otherLiabilities.length != 1">&nbsp;</td>
+    </tr>
+    <tr>
+      <th>Total Liabilities</th>
+      <td>&nbsp;</td>
+      <td style="text-align: right;"><u>{{totalLiabilitnum | number : '1.2-2'}}</u></td>
+    </tr>
+    <tr>
+      <th colspan="3">Stockholders' Equity</th>
+    </tr>
+    <tr *ngFor="let account of stockholdersEquity; let b = index">
+      <td style=" text-indent: 25px "><button class="btn btn-link" (click)="viewLedger(account.accountName)">{{account.accountName}}</button></td>
+      <td>&nbsp;</td>
+      <td style="text-align: right;" *ngIf="b != stockholdersEquity.length -1">{{account.currentBalance | number : '1.2-2'}}</td>
+      <td style="text-align: right;" *ngIf="b == stockholdersEquity.length -1"><u>{{account.currentBalance | number : '1.2-2'}}</u></td>
+    <tr>
+      <th >Total StockHolders' Equity</th>
+       <td>&nbsp;</td>
+    <td style="text-align: right;"><u>{{totalEquitynum | number : '1.2-2'}}</u></td>
+    </tr>
+
+    <tr>
+      <td colspan="2">&nbsp;</td>
+      <td style="text-align: right">________</td>
+
+    </tr>
+    <tr>
+      <th>Total Liabilities & Stockholders' Equity</th>
+      <td>&nbsp;</td>
+      <td style="text-align: right;"><p class="newclass">{{'$'+(totalEquitynum + totalLiabilitnum | number : '1.2-2')}}</p></td>
+    </tr>
+
+    <button class="btn btn-primary" (click)="convertPDF()">Download Table</button>
+  </table>
+</div>

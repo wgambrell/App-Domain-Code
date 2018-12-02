@@ -1,0 +1,59 @@
+td, th {
+  border: 1px solid #6e7d93;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #6e7d93;
+}
+table, h3, h2, td {
+    color: white;
+} 
+#accountTable {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.sidenav {
+  height: 100%;
+  width: 200px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #4171cb;
+  overflow-x: hidden;
+  padding-top: 0px;
+  float: left;
+}
+
+.drop {
+  z-index: 2;
+  overflow-x: hidden;
+  float: left;
+}
+
+.right{
+  margin-left: 200px;
+}
+
+.btn-link{
+  color: white;
+}
+
+#image {
+  background-image:url("../../assets/logo2.png");
+  background-position: center;
+  background-size: 100px 180px;
+  width: 100px;
+  height: 180px;
+
+}
+
+#center {
+  position: relative;
+  width: 55%;
+  margin: 0 auto;
+}

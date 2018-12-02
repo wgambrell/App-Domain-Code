@@ -1,0 +1,12 @@
+
+'.idea/workspace.xml' 
+
+#Ignore file named 'Thumbs.db'
+Thumbs.db
+
+#Ignore folder named '.idea'
+.idea/
+
+# Ingnore folder named 'node_module333s'
+node_modules333/
+

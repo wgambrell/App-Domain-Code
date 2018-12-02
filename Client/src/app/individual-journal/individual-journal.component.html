@@ -1,0 +1,90 @@
+
+<div id="viewSource" class="modal">
+  <div class="modal-content4">
+    <div style="white-space: pre-line;">
+      {{documentInfo}}
+    </div>
+    <div  style="position: fixed; bottom: 15%; ">
+      <button style="position: fixed" (click)="closeFile()">Close</button>
+    </div>
+  </div>
+</div>
+
+
+<div style="padding-top: 20px">
+  <table id="journalTable" style="">
+    <thead>
+    <tr>
+      <th colspan="8" class="col-xs-1 text-center">Individual Journal</th>
+    <tr>
+    <tr>
+      <th><abbr title="Date"></abbr>Date</th>
+      <th><abbr title="Type"></abbr>Type</th>
+      <th><abbr title="Created By"></abbr>Created By</th>
+      <th><abbr title="Accounts"></abbr>Accounts</th>
+      <th><abbr title="Reference"></abbr>REF</th>
+      <th><abbr title="Debit"></abbr>Debit</th>
+      <th><abbr title="Credit"></abbr>Credit</th>
+      <th><abbr title="Credit"></abbr>Status</th>
+    </tr>
+    </thead>
+
+    <tr >
+      <td style="vertical-align: top"  >{{ thisJournal.Date | date: 'MM/dd/yyyy'}}</td>
+    <td style="vertical-align: top">
+      {{thisJournal.Type}}
+    </td>
+    <td style="vertical-align: top" >{{ thisJournal.CreatedBy }}</td>
+    <td>
+    <table>
+      <tr *ngFor="let jaccount of thisJournal.JournalAccounts" style=" background-color: transparent" >
+        <td  class="accountslist2" *ngIf="jaccount.NormalSide == 'Credit'" >
+          <button class="btn btn-link" (click)="viewLedger(jaccount.AccountName)">{{ jaccount.AccountName }}</button></td>
+        <td  class="accountslist" *ngIf="jaccount.NormalSide == 'Debit'">
+          <button class="btn btn-link" (click)="viewLedger(jaccount.AccountName)">{{ jaccount.AccountName }}</button>
+        </td>
+      </tr>
+      <tr style=" background-color: transparent">
+        <td class="accountslist" *ngIf="thisJournal.Description != null">{{'Description: ' + thisJournal.Description}}</td>
+        <td class="accountslist" *ngIf="thisJournal.Description == null">{{'Description: none'}}</td>
+      </tr>
+      <tr style=" background-color: transparent" *ngIf="thisJournal.FileID != null && thisJournal.FileID > 0">
+        <td  class="accountslist">
+          <button class="btn btn-link " style="color: dodgerblue" (click)="getJournalFile(thisJournal.FileID, thisJournal.FileName)" >{{"\u21E9"+'  View Document -' + thisJournal.FileName}}</button>
+        </td>
+      </tr>
+    </table>
+    </td>
+
+    <td style="vertical-align: top">{{ thisJournal.Reference }}</td>
+
+    <td style="vertical-align: top" align="right">
+      <table >
+        <tr *ngFor="let jaccount of thisJournal.JournalAccounts; let b = index" style=" background-color: transparent">
+          <td class="accountslist"  *ngIf="jaccount.DebitAmount == null"  style="text-align: right;">&nbsp;</td>
+          <td class="accountslist"  *ngIf="jaccount.DebitAmount != null && b == 0"  style="text-align:right">{{"$"+(jaccount.DebitAmount | number : '1.2-2')}}</td>
+          <td class="accountslist3"  *ngIf="jaccount.DebitAmount != null && b != 0"  style="text-align: right;">{{(jaccount.DebitAmount | number : '1.2-2')}}</td>
+        </tr>
+      </table>
+    </td>
+
+    <td style="vertical-align: top">
+      <table  style="vertical-align: top;" align="right">
+        <tr *ngFor="let jaccount of thisJournal.JournalAccounts; let i = index" style=" background-color: transparent;">
+          <td class="accountslist"  *ngIf="jaccount.CreditAmount == null"  style="text-align: right;">&nbsp;</td>
+          <td class="accountslist"  *ngIf="jaccount.CreditAmount != null && i == getNumberDebits(thisJournal.JournalAccounts)"  style="text-align: right;">{{"$"+(jaccount.CreditAmount | number : '1.2-2')}}</td>
+          <td class="accountslist3" *ngIf="jaccount.CreditAmount != null && i != getNumberDebits(thisJournal.JournalAccounts)"  style="text-align: right;">{{(jaccount.CreditAmount | number : '1.2-2')}}</td>
+        </tr>
+      </table>
+    </td>
+    <td style="vertical-align: top">
+
+      <label *ngIf="thisJournal.acceptance != null" style="text-align: right;">{{thisJournal.acceptance}}</label>
+      <label *ngIf="thisJournal.acceptance == null" style="text-align: right;">Pending</label>
+
+    </td>
+
+    </tr>
+  </table>
+  <button class="btn btn-info btn-lg" (click)="viewGenJournal()" >General Journal</button>
+</div>
